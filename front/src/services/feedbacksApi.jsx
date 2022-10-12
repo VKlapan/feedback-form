@@ -10,6 +10,14 @@ export const getFeedbacks = async () => {
 };
 
 export const addFeedback = async ({ name, email, feedback }) => {
-  const { data } = await instance.post(`/feedbacks`, { name, email, feedback });
-  return data;
+  try {
+    const { data } = await instance.post(`/feedbacks`, {
+      name,
+      email,
+      feedback,
+    });
+    return data;
+  } catch (error) {
+    alert(error);
+  }
 };
