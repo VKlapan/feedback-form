@@ -27,7 +27,7 @@ export const FormTitle = styled.p`
 `;
 
 export const InputField = styled.input`
-  background: #ffffff;
+  background: transparent;
   border: 1px solid #dcdcdc;
   border-radius: 10px;
   font-family: "Apercu Arabic Pro";

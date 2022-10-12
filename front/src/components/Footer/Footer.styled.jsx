@@ -16,7 +16,7 @@ export const FooterContainer = styled.div`
   height: 200px;
   margin: 0;
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: left;
 `;
 export const FooterLogo = styled.div`
