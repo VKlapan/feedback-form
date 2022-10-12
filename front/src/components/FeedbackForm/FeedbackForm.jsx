@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { inputEmail, inputFeedback, inputName } from "../../redux/formSlice";
-import { Form, InputLabel, SubmitButton } from "./FeedbackForm.styled";
+import {
+  Form,
+  FormTitle,
+  InputField,
+  SubmitButton,
+} from "./FeedbackForm.styled";
 
 const FeedbackForm = ({ onSubmit }) => {
   const dispatch = useDispatch();
@@ -12,15 +17,12 @@ const FeedbackForm = ({ onSubmit }) => {
     const { name, value } = event.currentTarget;
     switch (name) {
       case "name":
-        console.log(name);
         dispatch(inputName(value));
         break;
       case "email":
-        console.log(name);
         dispatch(inputEmail(value));
         break;
       case "feedback":
-        console.log(name);
         dispatch(inputFeedback(value));
         break;
       default:
@@ -42,34 +44,29 @@ const FeedbackForm = ({ onSubmit }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <InputLabel>
-        Name
-        <input
-          type="text"
-          name="name"
-          value={nameFromInput}
-          onChange={handleChange}
-        />
-      </InputLabel>
-      <InputLabel>
-        EMail
-        <input
-          type="email"
-          name="email"
-          value={emailFromInput}
-          onChange={handleChange}
-        />
-      </InputLabel>
-      <InputLabel>
-        Feedback
-        <input
-          type="text"
-          name="feedback"
-          value={feedbackFromInput}
-          onChange={handleChange}
-        />
-      </InputLabel>
-      <SubmitButton type="submit">Send Feedback</SubmitButton>
+      <FormTitle>Rich out to us!</FormTitle>
+      <InputField
+        type="text"
+        name="name"
+        value={nameFromInput}
+        onChange={handleChange}
+        placeholder="Your name*"
+      />
+      <InputField
+        type="email"
+        name="email"
+        value={emailFromInput}
+        onChange={handleChange}
+        placeholder="Your email*"
+      />
+      <InputField
+        type="text"
+        name="feedback"
+        value={feedbackFromInput}
+        onChange={handleChange}
+        placeholder="Your message*"
+      />
+      <SubmitButton type="submit">Send Message</SubmitButton>
     </Form>
   );
 };
