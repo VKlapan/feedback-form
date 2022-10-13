@@ -1,20 +1,54 @@
 version: "3"
 services:
-  test-web:
+  postgres:
+    image: "postgres:latest"
+    env_file:
+      - ./backend/.development.env
+    restart: always
+
+  api:
     build:
-      context: .
-      dockerfile: Dockerfile.client
-    ports:
-      - "3000:80"
-  test-api:
-    build:
-      context: .
       dockerfile: Dockerfile.server
+      context: "./backend"
+    env_file:
+      - ./backend/.development.env
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
     ports:
-      - "5000:5000"
-  test-postgres:
+      - 5000:5000
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+    command: npm run start:dev
+    depends_on:
+      - postgres
+    restart: always
+
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     build:
-      context: .
-      dockerfile: Dockerfile.postgres
+      dockerfile: Dockerfile.client
+      context: ./front
+    volumes:
+      - /app/node_modules
+      - ./front:/app
+
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile.nginx
+      context: ./nginx
     ports:
-      - "5432:5432"
+      - "3050:80"
+
+volumes:
+  pgdata:
