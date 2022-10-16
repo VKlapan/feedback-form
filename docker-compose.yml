@@ -3,15 +3,13 @@ services:
   postgres:
     image: "postgres:latest"
     env_file:
-      - ./backend/.development.env
+      - ./backend/.production.env
     restart: always
 
   api:
     build:
       dockerfile: Dockerfile.server
       context: "./backend"
-    env_file:
-      - ./backend/.development.env
     volumes:
       - /app/node_modules
       - ./backend:/app
@@ -23,7 +21,7 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
-    command: npm run start:dev
+    command: npm run start
     depends_on:
       - postgres
     restart: always

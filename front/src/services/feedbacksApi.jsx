@@ -16,8 +16,9 @@ export const addFeedback = async ({ name, email, feedback }) => {
       email,
       feedback,
     });
-    return data;
+    return Promise.resolve(data);
   } catch (error) {
-    alert(error);
+    const errorMessage = error.response.data.message;
+    return Promise.reject(errorMessage.toUpperCase());
   }
 };

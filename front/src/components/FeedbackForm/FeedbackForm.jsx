@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { inputEmail, inputFeedback, inputName } from "../../redux/formSlice";
+import { Notify } from "notiflix";
 import {
   Form,
   FormTitle,
@@ -32,14 +33,20 @@ const FeedbackForm = ({ onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (
+      nameFromInput === "" ||
+      emailFromInput === "" ||
+      feedbackFromInput === ""
+    )
+      //      return console.log("YOU NEED FILL ALL FIELDS!");
+      return Notify.warning("YOU NEED FILL ALL FIELDS!");
+
     onSubmit({
       name: nameFromInput,
       email: emailFromInput,
       feedback: feedbackFromInput,
     });
-    dispatch(inputName(""));
-    dispatch(inputEmail(""));
-    dispatch(inputFeedback(""));
   };
 
   return (
