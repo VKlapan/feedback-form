@@ -4,49 +4,25 @@ services:
     image: "postgres:latest"
     env_file:
       - ./backend/.production.env
-    restart: always
 
   api:
     build:
       dockerfile: Dockerfile.server
       context: "./backend"
-    volumes:
-      - /app/node_modules
-      - ./backend:/app
+    env_file:
+      - ./backend/.production.env
+
     ports:
       - 5000:5000
-    environment:
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
-    command: npm run start
     depends_on:
       - postgres
-    restart: always
 
   client:
-    stdin_open: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true
     build:
       dockerfile: Dockerfile.client
       context: ./front
-    volumes:
-      - /app/node_modules
-      - ./front:/app
-
-  nginx:
-    depends_on:
-      - api
-      - client
-    restart: always
-    build:
-      dockerfile: Dockerfile.nginx
-      context: ./nginx
     ports:
-      - "3050:80"
+      - 3000:80
 
 volumes:
   pgdata:
