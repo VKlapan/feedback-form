@@ -4,6 +4,8 @@ services:
     image: "postgres:latest"
     env_file:
       - ./backend/.production.env
+    environment:
+      - POSTGRES_PORT=5432
 
   api:
     build:
@@ -11,6 +13,8 @@ services:
       context: "./backend"
     env_file:
       - ./backend/.production.env
+    environment:
+      - POSTGRES_PORT=5432
 
     ports:
       - 5000:5000
@@ -22,5 +26,6 @@ services:
       dockerfile: Dockerfile.client
       context: ./front
     ports:
-      - 3000:80
-
+      - 8080:80
+    environment:
+      - API_URL=api
