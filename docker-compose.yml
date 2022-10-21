@@ -27,5 +27,3 @@ services:
       context: ./front
     ports:
       - 8080:80
-    environment:
-      - API_URL=api
